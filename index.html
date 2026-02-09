@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>College Registration Form</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>College Registration</h2>
+
+    <form id="registrationForm">
+        <div class="field">
+            <input type="text" id="name" placeholder="Student Name">
+            <small class="error"></small>
+        </div>
+
+        <div class="field">
+            <input type="email" id="email" placeholder="College Email">
+            <small class="error"></small>
+        </div>
+
+        <div class="field">
+            <input type="text" id="roll" placeholder="Roll Number">
+            <small class="error"></small>
+        </div>
+
+        <div class="field">
+            <select id="course">
+                <option value="">Select Course</option>
+                <option>B.Tech</option>
+                <option>BCA</option>
+                <option>MCA</option>
+                <option>MBA</option>
+            </select>
+            <small class="error"></small>
+        </div>
+
+        <div class="field">
+            <input type="password" id="password" placeholder="Password">
+            <small class="error"></small>
+        </div>
+
+        <div class="field">
+            <input type="password" id="confirmPassword" placeholder="Confirm Password">
+            <small class="error"></small>
+        </div>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <p id="statusMessage"></p>
+</div>
+
+<script src="form.js"></script>
+</body>
+</html>
