@@ -1,21 +1,21 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect } from "react";
+import { ResumeContext } from "./ResumeContext";
 
 function ResumeBuilder() {
-  const [data, setData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    linkedin: "",
-    summary: "",
-    education: "",
-    skills: "",
-    experience: "",
-    achievements: "",
-  });
+  const { state, dispatch } = useContext(ResumeContext);
 
   const handleChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
+    dispatch({
+      type: "UPDATE",
+      field: e.target.name,
+      value: e.target.value,
+    });
   };
+
+  // Save data to localStorage
+  useEffect(() => {
+    localStorage.setItem("resumeData", JSON.stringify(state));
+  }, [state]);
 
   return (
     <div className="container">
@@ -69,45 +69,58 @@ function ResumeBuilder() {
           />
         </div>
 
+        <button onClick={() => dispatch({ type: "RESET" })}>
+          Reset
+        </button>
       </div>
 
       {/* RIGHT SIDE PREVIEW */}
       <div className="preview">
 
+        {/* HEADER */}
         <div className="resume-header">
-          <h1>{data.name || "Your Name"}</h1>
-          <p>
-            {data.email || "email@example.com"} | {data.phone || "1234567890"}
-          </p>
-          <p>{data.linkedin}</p>
+          <div className="avatar">
+            {state.name ? state.name.charAt(0).toUpperCase() : "U"}
+          </div>
+
+          <div>
+            <h1>{state.name || "Your Name"}</h1>
+            <p>
+              {state.email || "email@example.com"} | {state.phone || "1234567890"}
+            </p>
+            <p>{state.linkedin}</p>
+          </div>
         </div>
 
+        <hr />
+
+        {/* BODY */}
         <div className="resume-body">
 
           {/* LEFT COLUMN */}
           <div className="left">
             <h3>Skills</h3>
             <div className="tags">
-              {data.skills
-                ? data.skills.split(",").map((s, i) => (
+              {state.skills
+                ? state.skills.split(",").map((s, i) => (
                     <span key={i}>{s.trim()}</span>
                   ))
                 : <p>No skills added</p>}
             </div>
 
             <h3>Education</h3>
-            <p>{data.education || "Your education details"}</p>
+            <p>{state.education || "Your education details"}</p>
           </div>
 
           {/* RIGHT COLUMN */}
           <div className="right">
             <h3>Professional Summary</h3>
-            <p>{data.summary || "Your summary"}</p>
+            <p>{state.summary || "Your summary"}</p>
 
             <h3>Experience</h3>
             <ul>
-              {data.experience
-                ? data.experience.split("\n").map((e, i) => (
+              {state.experience
+                ? state.experience.split("\n").map((e, i) => (
                     <li key={i}>{e}</li>
                   ))
                 : <li>No experience added</li>}
@@ -115,8 +128,8 @@ function ResumeBuilder() {
 
             <h3>Achievements</h3>
             <ul>
-              {data.achievements
-                ? data.achievements.split("\n").map((a, i) => (
+              {state.achievements
+                ? state.achievements.split("\n").map((a, i) => (
                     <li key={i}>{a}</li>
                   ))
                 : <li>No achievements</li>}
@@ -125,7 +138,6 @@ function ResumeBuilder() {
 
         </div>
       </div>
-
     </div>
   );
 }
